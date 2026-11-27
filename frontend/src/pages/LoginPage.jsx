@@ -22,7 +22,7 @@ const LoginPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h2 className='mt-6 text-center text-3xl font-extrabold text-yellow-400'>Login to your account</h2>
+                    <h2 className='mt-6 text-center text-3xl font-extrabold text-yellow-400'>Đăng nhập tài khoản</h2>
                 </motion.div>
     
                 <motion.div
@@ -35,7 +35,7 @@ const LoginPage = () => {
                         <form onSubmit={handleSubmit} className='space-y-6'>
                             <div>
                                 <label htmlFor='email' className='block text-sm font-medium text-stone-300'>
-                                    Email address
+                                    Địa chỉ email
                                 </label>
                                 <div className='mt-1 relative rounded-md shadow-sm'>
                                     <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -100,9 +100,9 @@ const LoginPage = () => {
                         </form>
     
                         <p className='mt-8 text-center text-sm text-stone-400'>
-                            Not a member?{" "}
+                            Chưa có tài khoản?{" "}
                             <Link to='/signup' className='font-medium text-yellow-400 hover:text-yellow-300'>
-                                Sign up now <ArrowRight className='inline h-4 w-4' />
+                                Đăng ký ngay <ArrowRight className='inline h-4 w-4' />
                             </Link>
                         </p>
                     </div>

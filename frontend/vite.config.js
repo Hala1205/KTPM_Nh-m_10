@@ -6,9 +6,15 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': { 
-        target: 'http://localhost:5000',
-      }
+      '/api': {
+        target: process.env.API_PROXY_TARGET || 'http://localhost:5001',
+        changeOrigin: true,
+      },
+      '/uploads': {
+        target: process.env.API_PROXY_TARGET || 'http://localhost:5001',
+        changeOrigin: true,
+      },
     },
+    watch: { usePolling: true, interval: 500 },
   },
 })

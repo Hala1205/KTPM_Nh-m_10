@@ -25,15 +25,15 @@ export const useCartStore = create((set, get) => ({
 			const response = await axios.post("/coupons/validate", { code });
 			set({ coupon: response.data, isCouponApplied: true });
 			get().calculateTotals();
-			toast.success("Coupon applied successfully");
+			toast.success("Đã áp dụng mã giảm giá");
 		} catch (error) {
-			toast.error(error.response?.data?.message || "Failed to apply coupon");
+			toast.error(error.response?.data?.message || "Không thể áp dụng mã giảm giá");
 		}
 	},
 	removeCoupon: () => {
 		set({ coupon: null, isCouponApplied: false });
 		get().calculateTotals();
-		toast.success("Coupon removed");
+		toast.success("Đã bỏ mã giảm giá");
 	},
 
 	getCartItems: async () => {
@@ -43,7 +43,7 @@ export const useCartStore = create((set, get) => ({
 			get().calculateTotals();
 		} catch (error) {
 			set({ cart: [] });
-			toast.error(error.response?.data?.message || "An error occurred");
+			toast.error(error.response?.data?.message || "Đã xảy ra lỗi");
 		}
 	},
 	clearCart: async () => {
@@ -53,7 +53,7 @@ export const useCartStore = create((set, get) => ({
 		try {
 			const selectedVariant = variantId ? product.variants?.find((variant) => variant._id === variantId) : null;
 			await axios.post("/cart", { productId: product._id, variantId: variantId || undefined });
-			toast.success("Product added to cart");
+			toast.success("Đã thêm sản phẩm vào giỏ");
 
 			set((prevState) => {
 				const existingItem = prevState.cart.find((item) => sameItem(item, product._id, variantId));
@@ -71,7 +71,7 @@ export const useCartStore = create((set, get) => ({
 			});
 			get().calculateTotals();
 		} catch (error) {
-			toast.error(error.response?.data?.message || "An error occurred");
+			toast.error(error.response?.data?.message || "Đã xảy ra lỗi");
 		}
 	},
 	removeFromCart: async (productId, variantId = null) => {
@@ -80,7 +80,7 @@ export const useCartStore = create((set, get) => ({
 			set((prevState) => ({ cart: prevState.cart.filter((item) => !sameItem(item, productId, variantId)) }));
 			get().calculateTotals();
 		} catch (error) {
-			toast.error(error.response?.data?.message || "Unable to remove item");
+			toast.error(error.response?.data?.message || "Không thể xóa sản phẩm");
 		}
 	},
 	updateQuantity: async (productId, quantity, variantId = null) => {
@@ -95,7 +95,7 @@ export const useCartStore = create((set, get) => ({
 			}));
 			get().calculateTotals();
 		} catch (error) {
-			toast.error(error.response?.data?.message || "Unable to update quantity");
+			toast.error(error.response?.data?.message || "Không thể cập nhật số lượng");
 		}
 	},
 	calculateTotals: () => {

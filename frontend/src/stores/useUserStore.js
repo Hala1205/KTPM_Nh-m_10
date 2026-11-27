@@ -11,14 +11,14 @@ export const useUserStore = create((set) => ({
         set({ loading: true });
         if (password !== confirmPassword) {
             set({ loading: false });
-            return toast.error("Passwords do not match");
+            return toast.error("Mật khẩu xác nhận không khớp");
         }
         try {
             const res = await axios.post("/auth/signup", { name, email, password });
             set({ user: res.data, loading: false });
         } catch (error) {
             set({ loading: false });
-            toast.error(error.response?.data?.message || "An error occurred");
+            toast.error(error.response?.data?.message || "Đã xảy ra lỗi");
         }
     },
 
@@ -29,7 +29,7 @@ export const useUserStore = create((set) => ({
             set({ user: res.data, loading: false });
         } catch (error) {
             set({ loading: false });
-            toast.error(error.response?.data?.message || "Invalid email or password");
+            toast.error(error.response?.data?.message || "Email hoặc mật khẩu không đúng");
         }
     },
 
@@ -42,7 +42,7 @@ export const useUserStore = create((set) => ({
             await axios.post("/auth/logout");
             set({ user: null });
         } catch (error) {
-            toast.error(error.response?.data?.message || "An error occurred during logout");
+            toast.error(error.response?.data?.message || "Có lỗi khi đăng xuất");
         }
     },
 

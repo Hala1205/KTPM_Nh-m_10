@@ -9,16 +9,18 @@ const PurchaseSuccessPage = () => {
 	const [isProcessing, setIsProcessing] = useState(true);
 	const { clearCart } = useCartStore();
 	const [error, setError] = useState(null);
+	const [orderId, setOrderId] = useState("");
 
 	useEffect(() => {
 		const handleCheckoutSuccess = async (sessionId) => {
 			try {
-				await axios.post("/payments/checkout-success", {
+				const response = await axios.post("/payments/checkout-success", {
 					sessionId,
 				});
+				setOrderId(response.data.orderId || "");
 				clearCart();
 			} catch (error) {
-				console.log(error);
+				setError(error.response?.data?.message || "Không thể hoàn tất đơn hàng");
 			} finally {
 				setIsProcessing(false);
 			}
@@ -29,13 +31,13 @@ const PurchaseSuccessPage = () => {
 			handleCheckoutSuccess(sessionId);
 		} else {
 			setIsProcessing(false);
-			setError("No session ID found in the URL");
+			setError("Không tìm thấy mã phiên đặt hàng");
 		}
 	}, [clearCart]);
 
-	if (isProcessing) return "Processing...";
+	if (isProcessing) return "Đang xử lý...";
 
-	if (error) return `Error: ${error}`;
+	if (error) return `Lỗi: ${error}`;
 
 	return (
 		<div className='h-screen flex items-center justify-center px-4'>
@@ -54,23 +56,23 @@ const PurchaseSuccessPage = () => {
 						<CheckCircle className='text-yellow-400 w-16 h-16 mb-4' />
 					</div>
 					<h1 className='text-2xl sm:text-3xl font-bold text-center text-yellow-400 mb-2'>
-						Purchase Successful!
+						Đặt hàng thành công!
 					</h1>
 
 					<p className='text-stone-300 text-center mb-2'>
-						Thank you for your order. {"We're"} processing it now.
+						Cảm ơn bạn đã đặt hàng. Chúng tôi đang xử lý đơn.
 					</p>
 					<p className='text-yellow-400 text-center text-sm mb-6'>
-						Check your email for order details and updates.
+						Đây là thanh toán mô phỏng. Không có khoản tiền nào được thu.
 					</p>
 					<div className='bg-stone-700 rounded-lg p-4 mb-6'>
 						<div className='flex items-center justify-between mb-2'>
-							<span className='text-sm text-stone-400'>Order number</span>
-							<span className='text-sm font-semibold text-yellow-400'>#12345</span>
+							<span className='text-sm text-stone-400'>Mã đơn hàng</span>
+							<span className='text-sm font-semibold text-yellow-400'>#{orderId.slice(0, 8)}</span>
 						</div>
 						<div className='flex items-center justify-between'>
-							<span className='text-sm text-stone-400'>Estimated delivery</span>
-							<span className='text-sm font-semibold text-yellow-400'>3-5 business days</span>
+							<span className='text-sm text-stone-400'>Thời gian giao hàng dự kiến</span>
+							<span className='text-sm font-semibold text-yellow-400'>3–5 ngày làm việc</span>
 						</div>
 					</div>
 
@@ -80,14 +82,14 @@ const PurchaseSuccessPage = () => {
              rounded-lg transition duration-300 flex items-center justify-center'
 						>
 							<HandHeart className='mr-2' size={18} />
-							Thanks for trusting us!
+							Cảm ơn bạn đã tin tưởng!
 						</button>
 						<Link
 							to={"/"}
 							className='w-full bg-stone-700 hover:bg-stone-600 text-yellow-400 font-bold py-2 px-4 
             rounded-lg transition duration-300 flex items-center justify-center'
 						>
-							Continue Shopping
+							Tiếp tục mua sắm
 							<ArrowRight className='ml-2' size={18} />
 						</Link>
 					</div>

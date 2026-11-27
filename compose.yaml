@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: thread
+      POSTGRES_USER: thread
+      POSTGRES_PASSWORD: thread
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U thread -d thread"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DATABASE_URL: postgres://thread:thread@db:5432/thread
+      JWT_SECRET: ${JWT_SECRET:-local-only-change-this-secret-before-deployment}
+      UPLOAD_DIR: /app/uploads
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@thread.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+    volumes:
+      - product_images:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  postgres_data:
+  product_images:

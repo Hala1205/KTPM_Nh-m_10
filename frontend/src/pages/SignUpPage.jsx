@@ -27,7 +27,7 @@ const SignUpPage = () => {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.8 }}
 			>
-				<h2 className='mt-6 text-center text-3xl font-extrabold text-yellow-400'>Create your account</h2>
+				<h2 className='mt-6 text-center text-3xl font-extrabold text-yellow-400'>Tạo tài khoản</h2>
 			</motion.div>
 
 			<motion.div
@@ -40,7 +40,7 @@ const SignUpPage = () => {
 					<form onSubmit={handleSubmit} className='space-y-6'>
 						<div>
 							<label htmlFor='name' className='block text-sm font-medium text-stone-300'>
-								Full name
+								Họ và tên
 							</label>
 							<div className='mt-1 relative rounded-md shadow-sm'>
 								<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -54,14 +54,14 @@ const SignUpPage = () => {
 									onChange={(e) => setFormData({ ...formData, name: e.target.value })}
 									className='block w-full px-3 py-2 pl-10 bg-stone-700 border border-stone-600 rounded-md shadow-sm
 									 placeholder-stone-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm'
-									placeholder='Username*'
+									placeholder='Tên người dùng*'
 								/>
 							</div>
 						</div>
 
 						<div>
 							<label htmlFor='email' className='block text-sm font-medium text-stone-300'>
-								Email address
+								Địa chỉ email
 							</label>
 							<div className='mt-1 relative rounded-md shadow-sm'>
 								<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -105,7 +105,7 @@ const SignUpPage = () => {
 
 						<div>
 							<label htmlFor='confirmPassword' className='block text-sm font-medium text-stone-300'>
-								Confirm Password
+								Xác nhận mật khẩu
 							</label>
 							<div className='mt-1 relative rounded-md shadow-sm'>
 								<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -147,9 +147,9 @@ const SignUpPage = () => {
 					</form>
 
 					<p className='mt-8 text-center text-sm text-stone-400'>
-						Already have an account?{" "}
+						Đã có tài khoản?{" "}
 						<Link to='/login' className='font-medium text-yellow-400 hover:text-yellow-300'>
-							Login here <ArrowRight className='inline h-4 w-4' />
+							Đăng nhập tại đây <ArrowRight className='inline h-4 w-4' />
 						</Link>
 					</p>
 				</div>

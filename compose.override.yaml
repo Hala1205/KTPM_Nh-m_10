@@ -1,0 +1,35 @@
+services:
+  web:
+    build:
+      context: .
+      target: dev
+    command: npm run dev --prefix frontend -- --host 0.0.0.0 --port 5000
+    environment:
+      NODE_ENV: development
+      API_PROXY_TARGET: http://api:5001
+    volumes:
+      - ./frontend/src:/app/frontend/src
+      - ./frontend/public:/app/frontend/public
+      - ./frontend/index.html:/app/frontend/index.html
+      - ./frontend/vite.config.js:/app/frontend/vite.config.js
+    depends_on:
+      - api
+  api:
+    build:
+      context: .
+      target: dev
+    command: npx nodemon --legacy-watch backend/local-server.js
+    environment:
+      NODE_ENV: development
+      PORT: 5001
+      DATABASE_URL: postgres://thread:thread@db:5432/thread
+      JWT_SECRET: ${JWT_SECRET:-local-only-change-this-secret-before-deployment}
+      UPLOAD_DIR: /app/uploads
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@thread.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+    volumes:
+      - ./backend:/app/backend
+      - product_images:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy

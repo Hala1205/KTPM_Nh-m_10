@@ -13,7 +13,7 @@ const OrdersPage = () => {
     }, [fetchMyOrders]);
 
     const handleCancel = async (id) => {
-        if (!window.confirm("Cancel this order? If it was paid, a Stripe refund will be issued.")) return;
+        if (!window.confirm("Cancel this simulated order?")) return;
         setCancelling(id);
         await cancelOrder(id);
         setCancelling(null);
@@ -23,23 +23,23 @@ const OrdersPage = () => {
         <main className="container mx-auto min-h-screen px-4 py-16">
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
                 <div>
-                    <p className="mb-2 text-sm uppercase tracking-[0.2em] text-yellow-400">Account</p>
-                    <h1 className="text-3xl font-bold">My Orders</h1>
-                    <p className="mt-2 text-stone-400">Track your purchases and order status.</p>
+                    <p className="mb-2 text-sm uppercase tracking-[0.2em] text-yellow-400">Tài khoản</p>
+                    <h1 className="text-3xl font-bold">Đơn hàng của tôi</h1>
+                    <p className="mt-2 text-stone-400">Theo dõi đơn mua và trạng thái giao hàng.</p>
                 </div>
                 <Link to="/shop" className="rounded-md bg-yellow-500 px-4 py-2 font-semibold text-black hover:bg-yellow-400">
-                    Continue Shopping
+                    Tiếp tục mua sắm
                 </Link>
             </div>
 
-            {loading && !orders.length && <p className="text-stone-400">Loading orders...</p>}
+            {loading && !orders.length && <p className="text-stone-400">Đang tải đơn hàng...</p>}
 
             {!loading && !orders.length && (
                 <div className="rounded-lg border border-stone-700 bg-stone-800 p-8 text-center">
-                    <p className="text-lg font-semibold">You have no orders yet.</p>
-                    <p className="mt-2 text-stone-400">Your completed purchases will appear here.</p>
+                    <p className="text-lg font-semibold">Bạn chưa có đơn hàng nào.</p>
+                    <p className="mt-2 text-stone-400">Đơn hàng của bạn sẽ hiển thị tại đây.</p>
                     <Link to="/shop" className="mt-5 inline-block rounded-md bg-yellow-500 px-5 py-2 font-semibold text-black hover:bg-yellow-400">
-                        Browse the Shop
+                        Khám phá cửa hàng
                     </Link>
                 </div>
             )}
@@ -85,7 +85,7 @@ const OrdersPage = () => {
                                     <div key={`${order._id}-${index}`} className="flex items-center justify-between gap-3 text-sm">
                                         <span className="flex items-center gap-2">
                                             {item.product?.image && <img src={item.product.image} alt="" className="h-10 w-10 rounded object-cover" />}
-                                            {item.quantity} × {item.product?.name || "Product"}
+                                            {item.quantity} × {item.product?.name || "Sản phẩm"}
                                         </span>
                                         <span>${(Number(item.price) * Number(item.quantity)).toFixed(2)}</span>
                                     </div>
@@ -93,7 +93,7 @@ const OrdersPage = () => {
                             </div>
 
                             <div className="mt-4 flex justify-between border-t border-stone-700 pt-4 font-semibold">
-                                <span>Total</span>
+                                <span>Tổng cộng</span>
                                 <span className="text-yellow-400">${Number(order.totalAmount).toFixed(2)}</span>
                             </div>
 

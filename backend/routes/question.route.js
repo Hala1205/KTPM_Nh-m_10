@@ -1,1 +1,0 @@
-import express from "express";import {protectRoute,adminRoute} from "../middleware/auth.middleware.js";import {listQuestions,askQuestion,answerQuestion} from "../controllers/question.controller.js";const r=express.Router();r.get("/:productId",listQuestions);r.post("/:productId",protectRoute,askQuestion);r.patch("/:id",protectRoute,adminRoute,answerQuestion);export default r;
